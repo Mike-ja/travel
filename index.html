@@ -24,7 +24,7 @@
           </p>
           <div class="hero-meta">
             <span>4天路线</span>
-            <span>12个停靠点</span>
+            <span>14个停靠点</span>
             <span>重点提醒已标注</span>
             <span><a href="./tool.html">打开地点搜索工具</a></span>
           </div>
@@ -37,14 +37,6 @@
 
       <section class="dashboard">
         <aside class="sidebar">
-          <div class="panel">
-            <div class="panel-head">
-              <h2>行程切换</h2>
-              <p>点击某一天，高亮当天路线与提醒。</p>
-            </div>
-            <div id="day-tabs" class="day-tabs"></div>
-          </div>
-
           <div class="panel">
             <div class="panel-head">
               <h2 id="day-title">Day 1</h2>
@@ -90,6 +82,13 @@
         </aside>
 
         <main class="map-stage">
+          <div class="panel map-switch-panel">
+            <div class="panel-head">
+              <h2>行程切换</h2>
+              <p>点击某一天，高亮当天路线与提醒。</p>
+            </div>
+            <div id="day-tabs" class="day-tabs"></div>
+          </div>
           <div class="map-toolbar">
             <div>
               <strong id="map-route-name">Day 1</strong>
@@ -97,8 +96,17 @@
             </div>
             <button id="fit-route" type="button">聚焦当天路线</button>
           </div>
-          <div id="map"></div>
-          <div id="map-hint" class="map-hint hidden"></div>
+          <div class="map-canvas">
+            <div id="map-stop-panel" class="map-stop-panel">
+              <div class="map-stop-panel-head">
+                <span>地点列表</span>
+                <button id="toggle-map-stop-panel" class="map-stop-toggle" type="button">收起</button>
+              </div>
+              <div id="map-stop-list" class="map-stop-list"></div>
+            </div>
+            <div id="map"></div>
+            <div id="map-hint" class="map-hint hidden"></div>
+          </div>
         </main>
       </section>
     </div>

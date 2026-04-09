@@ -22,6 +22,14 @@ const defaultItinerary = [
     color: "#8f2d1f",
     stops: [
       {
+        name: "西安咸阳国际机场T3航站楼",
+        address: "西安咸阳国际机场T3航站楼 · 西安咸阳国际机场内",
+        coords: [108.761401, 34.435045],
+        stay: "约 40 分钟",
+        note: "作为 Day 1 的落地起点，建议先出发去市区再开始正式游览。",
+        tags: ["落地起点", "机场出发", "接驳市区"],
+      },
+      {
         name: "大慈恩寺",
         address: "大慈恩寺 · 慈恩路1号",
         coords: [108.96418, 34.217954],
@@ -44,6 +52,14 @@ const defaultItinerary = [
         stay: "约 2.5 小时",
         note: "按不夜城北口主进入段定位，适合晚间慢走看演出和灯光，银泰百货三楼袁家村吃饭更稳。",
         tags: ["主入口段", "夜游核心", "拍照易加价", "星巴克旁小路打车"],
+      },
+      {
+        name: "银泰百货(曲江银泰城店)",
+        address: "银泰百货(曲江银泰城店) · 雁塔南路410号",
+        coords: [108.964004, 34.20672],
+        stay: "约 1 小时",
+        note: "适合作为 Day 1 收尾吃饭点，三楼袁家村是这条线里更稳妥的用餐选择。",
+        tags: ["晚饭推荐", "购物餐饮", "Day 1 收尾"],
       },
     ],
     reminders: [
@@ -199,6 +215,7 @@ const state = {
   currentDayIndex: 0,
   selectedStopIndex: null,
   searchPois: [],
+  isMapStopPanelOpen: true,
   map: null,
   AMap: null,
   infoWindow: null,
@@ -219,6 +236,9 @@ const mapRouteName = document.querySelector("#map-route-name");
 const mapRouteSummary = document.querySelector("#map-route-summary");
 const mapHint = document.querySelector("#map-hint");
 const fitRouteButton = document.querySelector("#fit-route");
+const mapStopPanel = document.querySelector("#map-stop-panel");
+const mapStopList = document.querySelector("#map-stop-list");
+const toggleMapStopPanelButton = document.querySelector("#toggle-map-stop-panel");
 const locationEditor = document.querySelector("#location-editor");
 const searchEditor = document.querySelector("#search-editor");
 const searchStopName = document.querySelector("#search-stop-name");
@@ -319,6 +339,26 @@ function renderDayContent(index) {
     .join("");
 
   dayReminders.innerHTML = day.reminders.map((item) => `<li>${item}</li>`).join("");
+  renderMapStopList(index);
+}
+
+function renderMapStopList(index) {
+  const day = state.itinerary[index];
+  mapStopList.innerHTML = day.stops
+    .map(
+      (stop, stopIndex) => `
+        <button class="map-stop-item ${stopIndex === state.selectedStopIndex ? "active" : ""}" data-map-stop-index="${stopIndex}" type="button">
+          <strong>${stopIndex + 1}. ${escapeHtml(stop.name)}</strong>
+          <span>${escapeHtml(stop.address || "未设置地址")}</span>
+        </button>
+      `,
+    )
+    .join("");
+}
+
+function renderMapStopPanel() {
+  mapStopPanel.classList.toggle("collapsed", !state.isMapStopPanelOpen);
+  toggleMapStopPanelButton.textContent = state.isMapStopPanelOpen ? "收起" : "展开";
 }
 
 function renderLocationEditor() {
@@ -369,6 +409,27 @@ function buildInfoContent(day, stop) {
   `;
 }
 
+function focusStop(stopIndex, zoom = 15.6) {
+  const day = state.itinerary[state.currentDayIndex];
+  const stop = day.stops[stopIndex];
+  if (!stop) {
+    return;
+  }
+
+  state.selectedStopIndex = stopIndex;
+  locationSearchInput.value = stop.address || stop.name;
+  renderDayContent(state.currentDayIndex);
+  renderEditor();
+
+  if (!state.map || !state.infoWindow) {
+    return;
+  }
+
+  state.map.setZoomAndCenter(zoom, stop.coords);
+  state.infoWindow.setContent(buildInfoContent(day, stop));
+  state.infoWindow.open(state.map, stop.coords);
+}
+
 function createMarker(AMap, day, stop, index) {
   const marker = new AMap.Marker({
     position: stop.coords,
@@ -381,12 +442,7 @@ function createMarker(AMap, day, stop, index) {
   });
 
   marker.on("click", () => {
-    state.selectedStopIndex = index;
-    locationSearchInput.value = stop.address || stop.name;
-    renderDayContent(state.currentDayIndex);
-    renderEditor();
-    state.infoWindow.setContent(buildInfoContent(day, stop));
-    state.infoWindow.open(state.map, stop.coords);
+    focusStop(index);
   });
 
   return marker;
@@ -551,6 +607,7 @@ function activateDay(index) {
   renderTabs();
   renderDayContent(index);
   renderEditor();
+  renderMapStopPanel();
   updateMap(index);
 }
 
@@ -736,11 +793,7 @@ stopList.addEventListener("click", (event) => {
     return;
   }
 
-  state.selectedStopIndex = Number(item.dataset.stopSelect);
-  const stop = state.itinerary[state.currentDayIndex].stops[state.selectedStopIndex];
-  locationSearchInput.value = stop.address || stop.name;
-  renderDayContent(state.currentDayIndex);
-  renderEditor();
+  focusStop(Number(item.dataset.stopSelect));
 });
 
 locationEditor.addEventListener("click", (event) => {
@@ -749,11 +802,23 @@ locationEditor.addEventListener("click", (event) => {
     return;
   }
 
-  state.selectedStopIndex = Number(button.dataset.stopSelect);
-  const stop = state.itinerary[state.currentDayIndex].stops[state.selectedStopIndex];
-  locationSearchInput.value = stop.address || stop.name;
-  renderDayContent(state.currentDayIndex);
-  renderEditor();
+  focusStop(Number(button.dataset.stopSelect));
+});
+
+mapStopList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-map-stop-index]");
+  if (!button) {
+    return;
+  }
+
+  focusStop(Number(button.dataset.mapStopIndex));
+});
+
+toggleMapStopPanelButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  state.isMapStopPanelOpen = !state.isMapStopPanelOpen;
+  renderMapStopPanel();
 });
 
 searchLocationsButton.addEventListener("click", () => {
@@ -793,4 +858,5 @@ renderGlobalReminders();
 renderTabs();
 renderDayContent(state.currentDayIndex);
 renderEditor();
+renderMapStopPanel();
 initMap();

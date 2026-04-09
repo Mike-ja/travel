@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>西安四日游路线图</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://webapi.amap.com/loader.js"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">XIAN CITY ROUTE</p>
+          <h1>西安四日游路线图</h1>
+          <p class="hero-text">
+            把大雁塔夜游、城墙钟鼓楼、博物馆线和临潼一日线压缩成四天，直接按地图走，顺手避开常见坑点。
+          </p>
+          <div class="hero-meta">
+            <span>4天路线</span>
+            <span>12个停靠点</span>
+            <span>重点提醒已标注</span>
+            <span><a href="./tool.html">打开地点搜索工具</a></span>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h2>旅行总提醒</h2>
+          <ul id="global-reminders" class="plain-list"></ul>
+        </div>
+      </section>
+
+      <section class="dashboard">
+        <aside class="sidebar">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>行程切换</h2>
+              <p>点击某一天，高亮当天路线与提醒。</p>
+            </div>
+            <div id="day-tabs" class="day-tabs"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2 id="day-title">Day 1</h2>
+              <p id="day-subtitle"></p>
+            </div>
+            <ol id="stop-list" class="stop-list"></ol>
+          </div>
+
+          <div class="panel emphasis">
+            <div class="panel-head">
+              <h2>当天提醒</h2>
+              <p>票务、拍照、体力和错峰信息。</p>
+            </div>
+            <ul id="day-reminders" class="plain-list"></ul>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2>地点管理</h2>
+              <p>点击景点后搜索候选地点，选中结果后自动保存。</p>
+            </div>
+            <div id="location-editor" class="location-editor"></div>
+            <div id="search-editor" class="search-editor hidden">
+              <div class="editor-card">
+                <strong id="search-stop-name"></strong>
+                <p id="search-stop-meta" class="search-stop-meta"></p>
+                <div class="editor-grid">
+                  <div class="editor-field">
+                    <label for="location-search-input">搜索地点</label>
+                    <input id="location-search-input" type="text" placeholder="输入景点名、入口、广场、门口" />
+                  </div>
+                </div>
+                <div class="editor-actions single">
+                  <button id="search-locations" class="ghost-button" type="button">搜索地点</button>
+                </div>
+                <div id="search-results" class="search-results"></div>
+              </div>
+            </div>
+            <div class="editor-actions">
+              <button id="reset-locations" class="ghost-button danger" type="button">恢复默认</button>
+            </div>
+          </div>
+        </aside>
+
+        <main class="map-stage">
+          <div class="map-toolbar">
+            <div>
+              <strong id="map-route-name">Day 1</strong>
+              <span id="map-route-summary"></span>
+            </div>
+            <button id="fit-route" type="button">聚焦当天路线</button>
+          </div>
+          <div id="map"></div>
+          <div id="map-hint" class="map-hint hidden"></div>
+        </main>
+      </section>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

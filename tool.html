@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>地点搜索工具</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./tool.css" />
+    <script src="https://webapi.amap.com/loader.js"></script>
+  </head>
+  <body>
+    <div class="tool-shell">
+      <section class="tool-header">
+        <div>
+          <p class="eyebrow">DEV TOOL</p>
+          <h1>地点搜索与复制工具</h1>
+          <p class="header-text">搜索高德地点结果，快速复制名称、地址、经纬度和可直接粘贴进代码的数据片段。</p>
+        </div>
+        <a class="back-link" href="./index.html">返回路线页</a>
+      </section>
+
+      <section class="tool-grid">
+        <aside class="search-panel">
+          <div class="panel">
+            <div class="field-group">
+              <label for="keyword">关键词</label>
+              <input id="keyword" type="text" placeholder="例如：大慈恩寺南门" />
+            </div>
+            <div class="field-group">
+              <label for="city">城市</label>
+              <input id="city" type="text" value="西安" />
+            </div>
+            <div class="actions">
+              <button id="search-btn" type="button">搜索地点</button>
+              <button id="clear-btn" class="ghost" type="button">清空结果</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>搜索结果</h2>
+            <div id="results" class="results"></div>
+          </div>
+        </aside>
+
+        <main class="detail-panel">
+          <div class="panel detail-card">
+            <h2>地点详情</h2>
+            <div id="empty-state" class="empty-state">选择一个搜索结果后，这里会显示可复制的地点信息。</div>
+            <div id="detail" class="detail hidden">
+              <div class="detail-row">
+                <span>名称</span>
+                <strong id="detail-name"></strong>
+              </div>
+              <div class="detail-row">
+                <span>地址</span>
+                <strong id="detail-address"></strong>
+              </div>
+              <div class="detail-row">
+                <span>坐标</span>
+                <strong id="detail-location"></strong>
+              </div>
+              <div class="copy-grid single">
+                <button data-copy="snippet" type="button">复制代码片段</button>
+              </div>
+              <div class="snippet-wrap">
+                <label for="snippet">代码片段</label>
+                <textarea id="snippet" readonly></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel map-panel">
+            <h2>地图预览</h2>
+            <div id="map"></div>
+            <div id="hint" class="hint hidden"></div>
+          </div>
+        </main>
+      </section>
+    </div>
+
+    <script src="./tool.js"></script>
+  </body>
+</html>

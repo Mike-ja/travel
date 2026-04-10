@@ -157,6 +157,7 @@ button.ghost {
   border-radius: 16px;
   border: 1px solid rgba(89, 72, 58, 0.1);
   background: rgba(255, 255, 255, 0.75);
+  color: var(--ink);
 }
 
 .result-item.active {
@@ -167,6 +168,10 @@ button.ghost {
 .result-item strong,
 .result-item span {
   display: block;
+}
+
+.result-item strong {
+  color: var(--ink);
 }
 
 .result-item span {

@@ -5,8 +5,34 @@ const AMAP_CONFIG = {
 
 const STORAGE_KEY = "xian-travel-itinerary";
 
+const DEFAULT_LODGING = {
+  name: "西安侬爱四月公寓(2号店)",
+  address: "西安侬爱四月公寓(2号店) · 长安大街3号小区2号楼B座",
+  coords: [108.949997, 34.232618],
+};
+
+const bookingReminders = [
+  { name: "陕西历史博物馆", price: "免费", booking: "提前5天预约", hours: "08:30-16:30" },
+  { name: "秦始皇兵马俑", price: "120r", booking: "提前7天预约", hours: "08:30-17:00" },
+  { name: "西安城墙", price: "54r", booking: "提前2天预约", hours: "08:00-20:00" },
+  { name: "大唐芙蓉园", price: "120r", booking: "提前1天预约", hours: "09:00-21:00" },
+  { name: "长恨歌", price: "248起", booking: "提前7天预约", hours: "20:10-23:59" },
+  { name: "《驼铃传奇》秀", price: "实时售票", booking: "gzh 驼铃传奇预约", hours: "按场次安排" },
+  { name: "华清宫", price: "120r", booking: "提前1天预约", hours: "07:30-19:00" },
+  { name: "大雁塔", price: "25r", booking: "提前1天预约", hours: "08:00-17:30" },
+  { name: "钟鼓楼", price: "联票50r", booking: "提前1天预约", hours: "08:00-20:00" },
+  { name: "高家大院", price: "15r", booking: "提前1天预约", hours: "10:00-20:00" },
+  { name: "大唐不夜城", price: "免费", booking: "无需预约", hours: "全天开放" },
+  { name: "西安博物馆", price: "免费", booking: "提前3天预约", hours: "08:00-18:00" },
+  { name: "陕西考古博物馆", price: "免费", booking: "提前3天预约", hours: "09:00-17:00" },
+  { name: "碑林博物馆", price: "65r", booking: "提前3天预约", hours: "09:00-17:30" },
+  { name: "法门寺", price: "100r", booking: "提前3天预约", hours: "08:30-17:30" },
+  { name: "华山", price: "淡季100r，旺季160r", booking: "提前7天预约", hours: "全天开放" },
+  { name: "大慈恩寺", price: "30r（登塔25r）", booking: "现场购票为主", hours: "08:30-18:00" },
+  { name: "千古情", price: "298r起", booking: "基础场次购票", hours: "15:00 / 15:30 / 17:30 / 19:00" },
+];
+
 const globalReminders = [
-  "陕西历史博物馆如果想去，至少提前一周预约；这份四日版优先保住核心路线，没抢到票也不影响整体体验。",
   "大唐不夜城和音乐喷泉都不需要额外租板凳，写真 99 元通常只是入门价。",
   "西安城墙建议半程骑行，不建议硬骑一整圈。",
   "兵马俑和华清宫一线暴晒、排队都很明显，遮阳伞、厚水、运动鞋是刚需。",
@@ -22,9 +48,9 @@ const defaultItinerary = [
     color: "#8f2d1f",
     stops: [
       {
-        name: "西安咸阳国际机场T3航站楼",
-        address: "西安咸阳国际机场T3航站楼 · 西安咸阳国际机场内",
-        coords: [108.761401, 34.435045],
+        name: "陕西历史博物馆",
+        address: "陕西历史博物馆 · 小寨东路91号",
+        coords: [108.955044, 34.224199],
         stay: "约 40 分钟",
         note: "作为 Day 1 的落地起点，建议先出发去市区再开始正式游览。",
         tags: ["落地起点", "机场出发", "接驳市区"],
@@ -36,6 +62,14 @@ const defaultItinerary = [
         stay: "约 1.5 小时",
         note: "按景区入口定位，下午 4 点后进更舒服，门票 30 元，登塔另加 25 元。",
         tags: ["景区入口", "建议下午入场", "登塔另收费"],
+      },
+      {
+        name: "西安大悦城",
+        address: "西安大悦城 · 曲江新区慈恩西路69号负一层B1-22号商铺",
+        coords: [108.962048, 34.216544],
+        stay: "约 40 分钟",
+        note: "这里是拍大雁塔的热门观景平台，适合在进北广场前先拍一组塔景。",
+        tags: ["观景平台", "拍大雁塔", "Day 1 加点"],
       },
       {
         name: "大雁塔北广场",
@@ -63,6 +97,7 @@ const defaultItinerary = [
       },
     ],
     reminders: [
+      "陕西历史博物馆是预约制热门馆，建议至少提前一周预约门票。",
       "写真店低价套餐通常只是引流，进店后加项目很常见。",
       "拍喷泉和夜景时注意保留手机电量，夜间人流密度高。",
       "不夜城散场后从星巴克旁边小路出去更容易叫到车。",
@@ -76,12 +111,12 @@ const defaultItinerary = [
     color: "#b85c38",
     stops: [
       {
-        name: "含光门博物馆",
-        address: "含光门博物馆",
-        coords: [108.939838, 34.252168],
-        stay: "约 20 分钟",
-        note: "买城墙票通常可顺带参观，体量不大，适合作为起点。",
-        tags: ["短时参观", "城墙票联动"],
+        name: "赛格国际购物中心",
+        address: "赛格国际购物中心 · 小寨东路(小寨地铁站D口出入口旁)",
+        coords: [108.948254, 34.223525],
+        stay: "约 1 小时",
+        note: "适合作为 Day 2 第一站，先看网红扶梯和亚洲最大室内瀑布，再往城墙方向走。",
+        tags: ["网红扶梯", "室内瀑布", "Day 2 起点"],
       },
       {
         name: "西安城墙永宁门段",
@@ -106,6 +141,14 @@ const defaultItinerary = [
         stay: "约 30 分钟",
         note: "和钟楼联票通常更划算，夜景完整度更高。",
         tags: ["联票更划算"],
+      },
+      {
+        name: "小南门夜市",
+        address: "小南门夜市 · 邱记开心涮涮小南门旁",
+        coords: [108.935937, 34.252396],
+        stay: "约 1 小时",
+        note: "适合作为 Day 2 夜间收尾，逛完钟鼓楼后补一段本地夜市小吃。",
+        tags: ["夜市小吃", "本地烟火气", "Day 2 收尾"],
       },
     ],
     reminders: [
@@ -168,12 +211,36 @@ const defaultItinerary = [
         tags: ["排队多", "防晒补水", "下午错峰"],
       },
       {
+        name: "秦始皇帝陵博物院丽山园",
+        address: "秦始皇帝陵博物院丽山园 · 标缝路",
+        coords: [109.259123, 34.382568],
+        stay: "约 2.5 小时",
+        note: "不请讲解容易只看成几个池子，可搭配骊山或缆车。",
+        tags: ["讲解更值", "可接骊山"],
+      },
+      {
         name: "华清宫",
         address: "华清宫",
         coords: [109.212287, 34.366039],
         stay: "约 2.5 小时",
         note: "不请讲解容易只看成几个池子，可搭配骊山或缆车。",
         tags: ["讲解更值", "可接骊山"],
+      },
+      {
+        name: "华清宫-兵谏亭",
+        address: "华清宫-兵谏亭 · 骊山街道环城东路3号骊山国家森林公园内",
+        coords: [109.216019, 34.360841],
+        stay: "约 40 分钟",
+        note: "适合作为华清宫后续补充点，可结合骊山一起安排。",
+        tags: ["华清宫后续", "骊山景点", "补充点"],
+      },
+      {
+        name: "骊山",
+        address: "骊山 · 临潼区",
+        coords: [109.21535, 34.353066],
+        stay: "约 1.5 小时",
+        note: "适合接在华清宫之后安排，可步行上山或结合缆车看视野。",
+        tags: ["华清宫后续", "可上山", "看视野"],
       },
       {
         name: "长恨歌演出地",
@@ -186,6 +253,8 @@ const defaultItinerary = [
     ],
     reminders: [
       "兵马俑动线常见三段排队，记得补水、防晒、轻装。",
+      "兵马俑门票建议提前购买，节假日和旺季更要尽早安排。",
+      "《长恨歌》建议提前买票，热门日期中段座位会更快售罄。",
       "《长恨歌》票可多比几家旅行社，常比平台价低。",
       "前排会更热，喷火和烟花阶段体感明显。",
     ],
@@ -229,6 +298,7 @@ const state = {
 const dayTabs = document.querySelector("#day-tabs");
 const stopList = document.querySelector("#stop-list");
 const dayReminders = document.querySelector("#day-reminders");
+const bookingReminderList = document.querySelector("#booking-reminders");
 const globalReminderList = document.querySelector("#global-reminders");
 const dayTitle = document.querySelector("#day-title");
 const daySubtitle = document.querySelector("#day-subtitle");
@@ -291,6 +361,18 @@ function getSegmentColor(dayColor, segmentIndex) {
 }
 
 function renderGlobalReminders() {
+  bookingReminderList.innerHTML = bookingReminders
+    .map(
+      (item) => `
+        <tr>
+          <td>${item.name}</td>
+          <td>${item.price}</td>
+          <td>${item.booking}</td>
+          <td>${item.hours}</td>
+        </tr>
+      `,
+    )
+    .join("");
   globalReminderList.innerHTML = globalReminders.map((item) => `<li>${item}</li>`).join("");
 }
 
@@ -310,6 +392,7 @@ function renderTabs() {
 function renderDayContent(index) {
   const day = state.itinerary[index];
   const currentLayer = state.dayLayers[index];
+  const lodging = getDayLodging(day);
   dayTitle.textContent = day.title;
   daySubtitle.textContent = day.subtitle;
   mapRouteName.textContent = `${day.title} 路线`;
@@ -338,12 +421,15 @@ function renderDayContent(index) {
     )
     .join("");
 
-  dayReminders.innerHTML = day.reminders.map((item) => `<li>${item}</li>`).join("");
+  dayReminders.innerHTML = [...day.reminders, `当晚住宿：${lodging.name}，地址为 ${lodging.address}。`]
+    .map((item) => `<li>${item}</li>`)
+    .join("");
   renderMapStopList(index);
 }
 
 function renderMapStopList(index) {
   const day = state.itinerary[index];
+  const lodging = getDayLodging(day);
   mapStopList.innerHTML = day.stops
     .map(
       (stop, stopIndex) => `
@@ -353,12 +439,22 @@ function renderMapStopList(index) {
         </button>
       `,
     )
-    .join("");
+    .join("")
+    .concat(`
+      <button class="map-stop-item lodging" data-map-stop-index="lodging" type="button">
+        <strong>★ 住宿</strong>
+        <span>${escapeHtml(lodging.name)}</span>
+      </button>
+    `);
 }
 
 function renderMapStopPanel() {
   mapStopPanel.classList.toggle("collapsed", !state.isMapStopPanelOpen);
   toggleMapStopPanelButton.textContent = state.isMapStopPanelOpen ? "收起" : "展开";
+}
+
+function getDayLodging(day) {
+  return day.lodging || DEFAULT_LODGING;
 }
 
 function renderLocationEditor() {
@@ -409,6 +505,17 @@ function buildInfoContent(day, stop) {
   `;
 }
 
+function buildLodgingInfoContent(day) {
+  const lodging = getDayLodging(day);
+  return `
+    <div class="amap-info">
+      <h3>★ ${lodging.name}</h3>
+      <p><strong>${day.title}</strong> · 住宿点</p>
+      <p>${escapeHtml(lodging.address)}</p>
+    </div>
+  `;
+}
+
 function focusStop(stopIndex, zoom = 15.6) {
   const day = state.itinerary[state.currentDayIndex];
   const stop = day.stops[stopIndex];
@@ -430,6 +537,22 @@ function focusStop(stopIndex, zoom = 15.6) {
   state.infoWindow.open(state.map, stop.coords);
 }
 
+function focusLodging(zoom = 15.2) {
+  const day = state.itinerary[state.currentDayIndex];
+  const lodging = getDayLodging(day);
+
+  renderDayContent(state.currentDayIndex);
+  renderEditor();
+
+  if (!state.map || !state.infoWindow) {
+    return;
+  }
+
+  state.map.setZoomAndCenter(zoom, lodging.coords);
+  state.infoWindow.setContent(buildLodgingInfoContent(day));
+  state.infoWindow.open(state.map, lodging.coords);
+}
+
 function createMarker(AMap, day, stop, index) {
   const marker = new AMap.Marker({
     position: stop.coords,
@@ -443,6 +566,29 @@ function createMarker(AMap, day, stop, index) {
 
   marker.on("click", () => {
     focusStop(index);
+  });
+
+  return marker;
+}
+
+function createLodgingMarker(AMap, day) {
+  const lodging = getDayLodging(day);
+  const marker = new AMap.Marker({
+    position: lodging.coords,
+    title: lodging.name,
+    anchor: "bottom-center",
+    content: `
+      <div style="display:flex;align-items:center;gap:6px;padding:4px 8px 4px 4px;border-radius:999px;background:rgba(255,255,255,0.96);border:1px solid rgba(143,45,31,0.18);box-shadow:0 8px 20px rgba(61,42,26,0.18);">
+        <div style="display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#8f2d1f;color:#fff;font-size:14px;line-height:1;">★</div>
+        <span style="color:#8f2d1f;font-size:12px;font-weight:700;white-space:nowrap;">住宿</span>
+      </div>
+    `,
+  });
+
+  marker.on("click", () => {
+    state.infoWindow.setContent(buildLodgingInfoContent(day));
+    state.infoWindow.open(state.map, lodging.coords);
+    state.map.setZoomAndCenter(15.2, lodging.coords);
   });
 
   return marker;
@@ -547,6 +693,7 @@ async function buildRouteSegments(day) {
 
 async function createDayLayer(AMap, day) {
   const markers = day.stops.map((stop, index) => createMarker(AMap, day, stop, index));
+  const lodgingMarker = createLodgingMarker(AMap, day);
   const routeInfo = await buildRouteSegments(day);
   const lines = routeInfo.segments.map((segment) =>
     new AMap.Polyline({
@@ -562,7 +709,7 @@ async function createDayLayer(AMap, day) {
     }),
   );
 
-  return { markers, lines, routeInfo };
+  return { markers, lodgingMarker, lines, routeInfo };
 }
 
 function fitCurrentRoute() {
@@ -571,7 +718,7 @@ function fitCurrentRoute() {
     return;
   }
 
-  state.map.setFitView([...currentLayer.markers, ...currentLayer.lines], false, [80, 80, 80, 80]);
+  state.map.setFitView([...currentLayer.markers, currentLayer.lodgingMarker, ...currentLayer.lines], false, [80, 80, 80, 80]);
 }
 
 function updateMap(index) {
@@ -582,6 +729,7 @@ function updateMap(index) {
   state.dayLayers.forEach((layer, layerIndex) => {
     const visible = layerIndex === index;
     layer.markers.forEach((marker) => marker.setMap(visible ? state.map : null));
+    layer.lodgingMarker.setMap(visible ? state.map : null);
     layer.lines.forEach((line) => {
       line.setMap(visible ? state.map : null);
       line.setOptions({
@@ -667,6 +815,7 @@ async function rebuildMapLayers() {
 
   state.dayLayers.forEach((layer) => {
     layer.markers.forEach((marker) => marker.setMap(null));
+    layer.lodgingMarker.setMap(null);
     layer.lines.forEach((line) => line.setMap(null));
   });
 
@@ -808,6 +957,11 @@ locationEditor.addEventListener("click", (event) => {
 mapStopList.addEventListener("click", (event) => {
   const button = event.target.closest("[data-map-stop-index]");
   if (!button) {
+    return;
+  }
+
+  if (button.dataset.mapStopIndex === "lodging") {
+    focusLodging();
     return;
   }
 

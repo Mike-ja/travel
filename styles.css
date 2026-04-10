@@ -76,7 +76,35 @@ p {
   color: var(--accent);
 }
 
+.booking-section {
+  margin-top: 16px;
+}
+
+.booking-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.booking-summary::-webkit-details-marker {
+  display: none;
+}
+
+.booking-summary::after {
+  content: "展开";
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.booking-section[open] .booking-summary::after {
+  content: "收起";
+}
+
 .booking-table-wrap {
+  margin-top: 10px;
   overflow-x: auto;
   border: 1px solid rgba(89, 72, 58, 0.1);
   border-radius: 16px;
@@ -84,8 +112,8 @@ p {
 }
 
 .booking-table {
-  width: 100%;
-  min-width: 620px;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   font-size: 13px;
 }
@@ -108,6 +136,7 @@ p {
 .booking-table td {
   color: var(--muted);
   line-height: 1.6;
+  white-space: nowrap;
 }
 
 .booking-table tbody tr:last-child td {

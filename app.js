@@ -48,14 +48,6 @@ const defaultItinerary = [
     color: "#8f2d1f",
     stops: [
       {
-        name: "陕西历史博物馆",
-        address: "陕西历史博物馆 · 小寨东路91号",
-        coords: [108.955044, 34.224199],
-        stay: "约 40 分钟",
-        note: "作为 Day 1 的落地起点，建议先出发去市区再开始正式游览。",
-        tags: ["落地起点", "机场出发", "接驳市区"],
-      },
-      {
         name: "大慈恩寺",
         address: "大慈恩寺 · 慈恩路1号",
         coords: [108.96418, 34.217954],
@@ -97,7 +89,6 @@ const defaultItinerary = [
       },
     ],
     reminders: [
-      "陕西历史博物馆是预约制热门馆，建议至少提前一周预约门票。",
       "写真店低价套餐通常只是引流，进店后加项目很常见。",
       "拍喷泉和夜景时注意保留手机电量，夜间人流密度高。",
       "不夜城散场后从星巴克旁边小路出去更容易叫到车。",
@@ -125,6 +116,14 @@ const defaultItinerary = [
         stay: "约 2 小时",
         note: "下午 6 点后上城墙观感更好，建议只骑半小时再返回。",
         tags: ["傍晚最佳", "骑半程即可"],
+      },
+      {
+        name: "军军绿豆糕(西羊市口店)",
+        address: "军军绿豆糕(西羊市口店) · 北院门街道办事处南门旁(钟楼地铁站A口步行470米)",
+        coords: [108.943869, 34.263136],
+        stay: "约 30 分钟",
+        note: "适合接在永宁门后补一站小吃，位置离钟鼓楼片区近，可以边走边吃再继续逛。",
+        tags: ["加餐点", "钟鼓楼片区", "永宁门后"],
       },
       {
         name: "钟楼",
@@ -160,25 +159,17 @@ const defaultItinerary = [
   {
     id: "day3",
     title: "Day 3",
-    subtitle: "小雁塔和西安博物院做文化日，最后去永兴坊吃饭",
-    summary: "塔院慢逛 + 博物馆平替 + 小吃收尾",
+    subtitle: "先看陕西历史博物馆，再去永兴坊吃饭",
+    summary: "热门馆主线 + 小吃收尾",
     color: "#546a7b",
     stops: [
       {
-        name: "小雁塔",
-        address: "小雁塔",
-        coords: [108.942818, 34.240693],
-        stay: "约 1 小时",
-        note: "免费但通常需要预约，古塔和园林环境都适合慢逛。",
-        tags: ["需预约", "园林感强"],
-      },
-      {
-        name: "西安博物院",
-        address: "西安博物院",
-        coords: [108.943559, 34.239764],
+        name: "陕西历史博物馆",
+        address: "陕西历史博物馆 · 小寨东路91号",
+        coords: [108.955044, 34.224199],
         stay: "约 2 小时",
-        note: "免费馆，作为陕历博平替很合适，馆藏足够扎实。",
-        tags: ["免费", "陕历博平替"],
+        note: "建议作为 Day 3 第一站，热门馆需提前预约，尽量早一点到场。",
+        tags: ["热门馆", "需预约", "Day 3 起点"],
       },
       {
         name: "永兴坊",
@@ -190,8 +181,8 @@ const defaultItinerary = [
       },
     ],
     reminders: [
-      "如果你成功抢到陕历博门票，可把今天下午改去陕历博，永兴坊放晚饭时段。",
-      "博物馆日建议穿舒适鞋，站立和慢走时间会比预期长。",
+      "陕西历史博物馆是预约制热门馆，建议至少提前一周预约门票。",
+      "博物馆参观时间通常比预期长，建议穿舒适鞋、少背重物。",
       "永兴坊和回民街一样，别在最显眼门头直接下单。",
     ],
   },
@@ -265,18 +256,80 @@ function cloneDefaultItinerary() {
   return JSON.parse(JSON.stringify(defaultItinerary));
 }
 
+function normalizeItinerary(itinerary) {
+  if (!Array.isArray(itinerary)) {
+    return cloneDefaultItinerary();
+  }
+
+  const normalized = JSON.parse(JSON.stringify(itinerary));
+  const day1 = normalized.find((day) => day.id === "day1");
+  const day2 = normalized.find((day) => day.id === "day2");
+  const day3 = normalized.find((day) => day.id === "day3");
+
+  if (!day1 || !day2 || !day3) {
+    return normalized;
+  }
+
+  const museumStopIndex = day1.stops.findIndex((stop) => stop.name === "陕西历史博物馆");
+  const day3NeedsUpdate = day3.stops.some((stop) => stop.name === "小雁塔" || stop.name === "西安博物院");
+
+  if (museumStopIndex === -1 && !day3NeedsUpdate) {
+    return normalized;
+  }
+
+  const museumStop =
+    museumStopIndex >= 0
+      ? day1.stops.splice(museumStopIndex, 1)[0]
+      : {
+          name: "陕西历史博物馆",
+          address: "陕西历史博物馆 · 小寨东路91号",
+          coords: [108.955044, 34.224199],
+          stay: "约 2 小时",
+          note: "建议作为 Day 3 第一站，热门馆需提前预约，尽量早一点到场。",
+          tags: ["热门馆", "需预约", "Day 3 起点"],
+        };
+
+  day3.stops = [museumStop, ...day3.stops.filter((stop) => stop.name !== "小雁塔" && stop.name !== "西安博物院")];
+  day3.subtitle = "先看陕西历史博物馆，再去永兴坊吃饭";
+  day3.summary = "热门馆主线 + 小吃收尾";
+  day3.reminders = [
+    "陕西历史博物馆是预约制热门馆，建议至少提前一周预约门票。",
+    "博物馆参观时间通常比预期长，建议穿舒适鞋、少背重物。",
+    "永兴坊和回民街一样，别在最显眼门头直接下单。",
+  ];
+
+  day1.reminders = day1.reminders.filter((item) => item !== "陕西历史博物馆是预约制热门馆，建议至少提前一周预约门票。");
+
+  const day2FoodStopName = "军军绿豆糕(西羊市口店)";
+  const wallStopIndex = day2.stops.findIndex((stop) => stop.name === "西安城墙永宁门段");
+  const hasDay2FoodStop = day2.stops.some((stop) => stop.name === day2FoodStopName);
+
+  if (wallStopIndex >= 0 && !hasDay2FoodStop) {
+    day2.stops.splice(wallStopIndex + 1, 0, {
+      name: day2FoodStopName,
+      address: "军军绿豆糕(西羊市口店) · 北院门街道办事处南门旁(钟楼地铁站A口步行470米)",
+      coords: [108.943869, 34.263136],
+      stay: "约 30 分钟",
+      note: "适合接在永宁门后补一站小吃，位置离钟鼓楼片区近，可以边走边吃再继续逛。",
+      tags: ["加餐点", "钟鼓楼片区", "永宁门后"],
+    });
+  }
+
+  return normalized;
+}
+
 function loadItinerary() {
   try {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      return cloneDefaultItinerary();
+      return normalizeItinerary(cloneDefaultItinerary());
     }
 
     const parsed = JSON.parse(saved);
-    return Array.isArray(parsed) ? parsed : cloneDefaultItinerary();
+    return normalizeItinerary(parsed);
   } catch (error) {
     console.error(error);
-    return cloneDefaultItinerary();
+    return normalizeItinerary(cloneDefaultItinerary());
   }
 }
 

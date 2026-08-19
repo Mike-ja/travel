@@ -48,3 +48,38 @@ body {
   background: var(--accent);
   font-size: 15px;
 }
+
+.weather-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 14px;
+  margin: 16px 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(24, 112, 90, 0.2);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(220, 243, 233, 0.95), rgba(255, 251, 236, 0.9));
+}
+
+.weather-icon {
+  grid-row: span 2;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  font-size: 20px;
+}
+
+.weather-main,
+.weather-tip {
+  margin: 0;
+}
+
+.weather-main { font-weight: 700; }
+
+.weather-tip {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}

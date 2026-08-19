@@ -13,9 +13,15 @@ const itinerary = [
   {
     id: "day1",
     title: "Day 1",
+    date: "8月21日 · 周五",
     pageTitle: "长沙第一天路线图",
     subtitle: "抵达长沙，入住后往湘江边慢慢走。",
     theme: "抵达日轻松安排",
+    weather: {
+      icon: "🌦️",
+      summary: "雷阵雨 · 26–33℃",
+      tip: "有阵雨和雷雨可能，抵达后外出请带伞，并留意短时强降水。",
+    },
     heroText: "从长沙南站抵达后先到民宿安顿，去衡厨吃饭后再到 Sarasara coffee 坐坐；傍晚游橘子洲，晚上到渔人码头吃小龙虾。",
     summary: "长沙南站 → 开宇大厦 → 衡厨 → Sarasara coffee → 橘子洲 → 渔人码头小龙虾",
     overview: [
@@ -75,6 +81,7 @@ const itinerary = [
     ],
     reminders: [
       "长沙南站到民宿有一段距离，带大件行李时可优先考虑网约车。",
+      "8 月 21 日有阵雨和雷雨可能，橘子洲行程请准备雨具并关注临时天气变化。",
       "橘子洲步行距离较长，建议穿舒适的鞋，并根据天气准备雨具或防晒。",
       "渔人码头晚间用餐客流较多，若抵达时间较晚，可提前确认排队和营业情况。",
     ],
@@ -82,9 +89,15 @@ const itinerary = [
   {
     id: "day2",
     title: "Day 2",
+    date: "8月22日 · 周六",
     pageTitle: "长沙第二天路线图",
     subtitle: "白天逛五一广场与黄兴路，晚上到贺龙体育场看演唱会。",
     theme: "市中心逛吃 + 演唱会",
+    weather: {
+      icon: "🌥️",
+      summary: "小雨到多云 · 26–33℃",
+      tip: "预报存在小雨可能，演唱会前建议确认场馆入场与雨具规定。",
+    },
     heroText: "从民宿出发到五一广场吃饭、逛黄兴路步行街；回民宿休整后，再去贺龙体育场看凤凰传奇演唱会。",
     summary: "住宿 → 五一广场 → 黄兴路步行街 → 回住宿 → 贺龙体育场",
     overview: [
@@ -127,6 +140,7 @@ const itinerary = [
     ],
     reminders: [
       "五一广场和黄兴路步行街人流密集，午饭尽量错开正午高峰。",
+      "8 月 22 日有小雨可能，演唱会使用雨具前请先查看场馆要求。",
       "回民宿休整时确认演唱会票、身份证件、充电宝和雨具。",
       "演唱会散场后体育场周边叫车会较难，优先看地铁或步行至更易上车的位置。",
     ],
@@ -153,6 +167,7 @@ const heroText = document.querySelector("#hero-text");
 const dayMeta = document.querySelector("#day-meta");
 const stopCount = document.querySelector("#stop-count");
 const dayTheme = document.querySelector("#day-theme");
+const weatherCard = document.querySelector("#weather-card");
 const dayOverview = document.querySelector("#day-overview");
 const dayTitle = document.querySelector("#day-title");
 const daySubtitle = document.querySelector("#day-subtitle");
@@ -228,13 +243,18 @@ function renderDay() {
   document.title = day.pageTitle;
   pageTitle.textContent = day.pageTitle;
   heroText.textContent = day.heroText;
-  dayMeta.textContent = day.title;
+  dayMeta.textContent = `${day.title} · ${day.date}`;
   stopCount.textContent = `${day.sequence.length} 个停靠点`;
   dayTheme.textContent = day.theme;
   dayTitle.textContent = day.title;
   daySubtitle.textContent = day.subtitle;
   mapRouteName.textContent = `${day.title} 路线`;
   mapRouteSummary.textContent = day.summary;
+  weatherCard.innerHTML = `
+    <span class="weather-icon" aria-hidden="true">${day.weather.icon}</span>
+    <p class="weather-main">${escapeHtml(day.date)} · ${escapeHtml(day.weather.summary)}</p>
+    <p class="weather-tip">${escapeHtml(day.weather.tip)} 出发前建议再次查看临近预报。</p>
+  `;
   dayOverview.innerHTML = day.overview.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
   stopList.innerHTML = day.sequence
     .map((item, sequenceIndex) => {

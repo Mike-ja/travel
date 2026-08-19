@@ -49,6 +49,16 @@ body {
   font-size: 15px;
 }
 
+.emphasis {
+  border-color: rgba(24, 112, 90, 0.22);
+  background: linear-gradient(180deg, rgba(224, 245, 234, 0.98), rgba(249, 255, 251, 0.96));
+}
+
+.emphasis .plain-list li {
+  border-left-color: var(--accent);
+  background: rgba(255, 255, 255, 0.76);
+}
+
 .weather-card {
   display: grid;
   grid-template-columns: auto 1fr;

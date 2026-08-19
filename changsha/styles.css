@@ -1,0 +1,50 @@
+@import url("../xian/styles.css");
+
+:root {
+  --bg: #eef5f0;
+  --panel: rgba(251, 255, 252, 0.93);
+  --ink: #17352c;
+  --muted: #557167;
+  --line: rgba(33, 91, 72, 0.18);
+  --accent: #18705a;
+  --accent-soft: #d8eee4;
+  --gold: #d39a45;
+  --shadow: 0 18px 40px rgba(29, 80, 62, 0.12);
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(112, 181, 143, 0.25), transparent 28%),
+    linear-gradient(180deg, #f7fcf8 0%, var(--bg) 100%);
+}
+
+.tool-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+}
+
+.tool-link span {
+  color: var(--accent);
+  font-size: 20px;
+}
+
+.tool-link:hover { border-color: rgba(24, 112, 90, 0.48); }
+
+.lodging-stop {
+  border-color: rgba(24, 112, 90, 0.28);
+  background: rgba(232, 247, 239, 0.9);
+}
+
+.lodging-stop::before {
+  content: "★";
+  background: var(--accent);
+  font-size: 15px;
+}

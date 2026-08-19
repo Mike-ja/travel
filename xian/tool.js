@@ -3,6 +3,11 @@ const AMAP_CONFIG = {
   securityJsCode: "962c62efe99065cd8153d6e9d0f6fd36",
 };
 
+const DEFAULT_CITY = document.documentElement.dataset.city || "西安";
+const DEFAULT_MAP_CENTER = (document.documentElement.dataset.mapCenter || "108.961311,34.26664")
+  .split(",")
+  .map(Number);
+
 const state = {
   AMap: null,
   map: null,
@@ -121,7 +126,7 @@ function selectPoi(index) {
 
 function searchPlaces() {
   const keyword = keywordInput.value.trim();
-  const city = cityInput.value.trim() || "西安";
+  const city = cityInput.value.trim() || DEFAULT_CITY;
 
   if (!keyword) {
     showHint("请输入地点关键词。");
@@ -196,14 +201,14 @@ async function initMap() {
     state.map = new AMap.Map("map", {
       viewMode: "3D",
       zoom: 11,
-      center: [108.961311, 34.26664],
+      center: DEFAULT_MAP_CENTER,
     });
     state.infoWindow = new AMap.InfoWindow({
       offset: new AMap.Pixel(0, -24),
       closeWhenClickMap: true,
     });
     state.placeSearch = new AMap.PlaceSearch({
-      city: cityInput.value.trim() || "西安",
+      city: cityInput.value.trim() || DEFAULT_CITY,
       citylimit: false,
       pageSize: 10,
       extensions: "base",

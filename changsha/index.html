@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>长沙旅行路线图</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://webapi.amap.com/loader.js"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">CHANGSHA CITY ROUTE</p>
+          <h1 id="page-title">长沙第一天路线图</h1>
+          <p id="hero-text" class="hero-text">从长沙南站抵达后先到民宿安顿，再去 Sarasara coffee 坐坐；傍晚游橘子洲，晚上到渔人码头吃小龙虾。</p>
+          <div class="hero-meta">
+            <span id="day-meta">Day 1</span>
+            <span id="stop-count">5 个停靠点</span>
+            <span id="day-theme">抵达日轻松安排</span>
+            <span><a href="./tool.html">打开长沙地点搜索工具</a></span>
+            <span><a href="../index.html">返回目的地选择</a></span>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h2>当天节奏</h2>
+          <ul id="day-overview" class="plain-list compact-list"></ul>
+        </div>
+      </section>
+
+      <section class="dashboard">
+        <aside class="sidebar">
+          <div class="panel">
+            <div class="panel-head">
+              <h2 id="day-title">Day 1</h2>
+              <p id="day-subtitle">抵达长沙，入住后往湘江边慢慢走。</p>
+            </div>
+            <ol id="stop-list" class="stop-list"></ol>
+          </div>
+
+          <div class="panel emphasis">
+            <div class="panel-head">
+              <h2>当天提醒</h2>
+              <p>把抵达日的时间留得松一点。</p>
+            </div>
+            <ul id="day-reminders" class="plain-list"></ul>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2>地点管理</h2>
+              <p>需要补充景点、入口或餐厅时，可用长沙地图搜索工具查坐标。</p>
+            </div>
+            <a class="tool-link" href="./tool.html">前往长沙地点搜索工具 <span>→</span></a>
+          </div>
+        </aside>
+
+        <main class="map-stage">
+          <div class="panel map-switch-panel">
+            <div class="panel-head">
+              <h2>行程切换</h2>
+              <p>点击某一天，高亮当天路线与提醒。</p>
+            </div>
+            <div id="day-tabs" class="day-tabs"></div>
+          </div>
+          <div class="map-toolbar">
+            <div>
+              <strong id="map-route-name">第一天路线</strong>
+              <span id="map-route-summary">长沙南站 → 开宇大厦 → Sarasara coffee → 橘子洲 → 渔人码头小龙虾</span>
+            </div>
+            <button id="fit-route" type="button">聚焦当天路线</button>
+          </div>
+          <div class="map-canvas">
+            <div id="map-stop-panel" class="map-stop-panel">
+              <div class="map-stop-panel-head">
+                <span>地点列表</span>
+                <button id="toggle-map-stop-panel" class="map-stop-toggle" type="button">收起</button>
+              </div>
+              <div id="map-stop-list" class="map-stop-list"></div>
+            </div>
+            <div id="map"></div>
+            <div id="map-hint" class="map-hint hidden"></div>
+          </div>
+        </main>
+      </section>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>

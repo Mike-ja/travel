@@ -118,6 +118,22 @@ const STOP_PHOTOS = {
   ],
 };
 
+const MAP_STOP_LABELS = {
+  "青岛胶东国际机场": "胶东机场",
+  "圣弥厄尔大教堂": "大教堂",
+  "柏海餐厅·海胆水饺(鲁迅公园店)": "柏海餐厅",
+  "第三海水浴场": "第三浴场",
+  "八大关风景区": "八大关",
+  "第二海水浴场": "第二浴场",
+  "六七八韩国炭火烤肉": "678 烤肉",
+  "青岛啤酒博物馆": "啤酒博物馆",
+  "中国水准零点景区": "水准零点",
+  "海源公园·一战华工纪念馆": "海源公园",
+  "三连岛观景段": "三连岛",
+  "猫头山3号观景台": "猫头山3号",
+  "国际海水浴场": "国际浴场",
+};
+
 const itinerary = [
   {
     id: "day1",
@@ -911,8 +927,12 @@ async function renderMapDay() {
     const marker = new state.AMap.Marker({
       position: stop.coords,
       title: stop.name,
-      anchor: "center",
+      anchor: "bottom-center",
       content: `<div style="display:grid;place-items:center;width:26px;height:26px;border:2px solid #fff;border-radius:50%;background:#087f8c;box-shadow:0 3px 9px rgba(15,118,110,.34);color:#fff;font:700 12px/1 sans-serif;">${sequenceIndex + 1}</div>`,
+      label: {
+        direction: "top",
+        content: `<div style="max-width:116px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:4px 8px;border:1px solid rgba(8,127,140,.22);border-radius:999px;background:rgba(255,255,255,.96);box-shadow:0 2px 7px rgba(15,78,86,.16);color:#075e67;font:600 12px/1.15 sans-serif;">${sequenceIndex + 1}. ${escapeHtml(MAP_STOP_LABELS[stop.name] || stop.name)}</div>`,
+      },
     });
     marker.on("click", () => focusSequence(sequenceIndex));
     return marker;

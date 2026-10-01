@@ -25,6 +25,10 @@ const STOP_PHOTOS = {
     { url: "https://store.is.autonavi.com/showpic/95ac2dfdc27756fdf429f62b9b71f933", sourceName: "鲁迅公园", nearby: false },
     { url: "https://store.is.autonavi.com/showpic/9c655120e9ae00080000003072174164?type=pic", sourceName: "鲁迅公园", nearby: false },
   ],
+  "day1:5": [
+    { url: "https://store.is.autonavi.com/showpic/89267a2068482e730f1ace1d997d12d7", sourceName: "柏海餐厅·海胆水饺(鲁迅公园店)", nearby: false },
+    { url: "https://aos-comment.amap.com/B021405HUU/comment/content_media_external_images_media_1169_1726149757521_64295675.jpg", sourceName: "柏海餐厅·海胆水饺(鲁迅公园店)", nearby: false },
+  ],
   "day1:6": [
     { url: "https://store.is.autonavi.com/showpic/1788a2c646138be64b19462d5c362eeb", sourceName: "青岛第三海水浴场", nearby: false },
     { url: "https://store.is.autonavi.com/showpic/bfc5cf2c88e8daa8938c68f21582f814", sourceName: "青岛第三海水浴场", nearby: false },
@@ -60,6 +64,14 @@ const STOP_PHOTOS = {
     { url: "https://store.is.autonavi.com/showpic/cf22f49e676c2fd6a9a2b9d848adda15", sourceName: "中国水准零点景区", nearby: false },
     { url: "https://store.is.autonavi.com/showpic/eb92468dba29ddb7293d3dd14e7a00b5", sourceName: "中国水准零点景区", nearby: false },
   ],
+  "day2:7": [
+    { url: "https://aos-cdn-image.amap.com/sns/ugccomment/b85671c1-729f-4d95-8313-81ce64600046.jpg", sourceName: "小麦岛公园", nearby: false },
+    { url: "https://aos-cdn-image.amap.com/sns/ugccomment/ea98fd70-2fe6-4f70-b1d6-29af1436487b.jpg", sourceName: "小麦岛公园", nearby: false },
+  ],
+  "day2:8": [
+    { url: "https://aos-comment.amap.com/B0HABHQOHX/comment/0BF1DA3A_0D4F_480E_ACA4_80935E585FF3_L0_001_1500_200_1761396105474_53581071.jpg", sourceName: "波螺油子·海肠捞饭·青岛菜(银座店)", nearby: false },
+    { url: "https://aos-comment.amap.com/B0HABHQOHX/comment/content_media_external_file_93039_ss__1764309178329_80901372.jpg", sourceName: "波螺油子·海肠捞饭·青岛菜(银座店)", nearby: false },
+  ],
   "day3:0": [
     { url: "https://aos-comment.amap.com/B0FFF9Y9R4/comment/content_media_external_file_179033_ss__1770082077296_62236704.jpg", sourceName: "海源公园-四眼楼", nearby: false },
     { url: "https://store.is.autonavi.com/showpic/1836373af3d631470000002738724497?type=pic", sourceName: "海源公园-四眼楼", nearby: false },
@@ -84,6 +96,10 @@ const STOP_PHOTOS = {
     { url: "https://store.is.autonavi.com/showpic/225885e5ddd54a2b0000002897904136?type=pic", sourceName: "葡萄滩海水浴场", nearby: false },
     { url: "https://aos-comment.amap.com/B02770HU6O/comment/30680CB8_7F7F_493F_A40C_B1789E4C0935_L0_001_1500_200_1760780189358_21333735.jpg", sourceName: "葡萄滩海水浴场", nearby: false },
   ],
+  "day3:7": [
+    { url: "https://store.is.autonavi.com/showpic/0f2196ed3143bb360000002472294881?type=pic", sourceName: "金海湾栈桥", nearby: false },
+    { url: "https://store.is.autonavi.com/showpic/52162fe1fd4b8bf00000003042630079?type=pic", sourceName: "金海湾栈桥", nearby: false },
+  ],
   "day3:8": [
     { url: "https://store.is.autonavi.com/showpic/125caef497aceef3146494fc1d93371b", sourceName: "威海国际海水浴场", nearby: false },
     { url: "https://store.is.autonavi.com/showpic/6081c832057425380000003772500557?type=pic", sourceName: "威海国际海水浴场", nearby: false },
@@ -91,6 +107,10 @@ const STOP_PHOTOS = {
   "day3:9": [
     { url: "https://aos-comment.amap.com/B0KR1ZRNIE/comment/content_media_external_file_1000031703_ss__1754827198144_44095753.jpg", sourceName: "欧乐坊凯旋街市集", nearby: true },
     { url: "https://store.is.autonavi.com/showpic/da400850c4213fc071e8dab9952a8b44", sourceName: "欧乐坊凯旋街市集", nearby: true },
+  ],
+  "day4:0": [
+    { url: "https://store.is.autonavi.com/showpic/b7c426b566c2aa3d0000004290402257?type=pic", sourceName: "火炬八街", nearby: false },
+    { url: "https://store.is.autonavi.com/showpic/75d60708793c0a640000006787034693?type=pic", sourceName: "火炬八街", nearby: false },
   ],
   "day5:0": [
     { url: "https://store.is.autonavi.com/showpic/22cf00de457354de0000001297270531?type=pic", sourceName: "青岛胶东国际机场航站楼", nearby: false },

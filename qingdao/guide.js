@@ -19,6 +19,32 @@ const images = {
   blueways: "https://ak-d.tripcdn.com/images/1mi0412000rr1xrh1C606_R_600_400_R5_Q90.jpg?proc=source%2Ftrip",
 };
 
+const amapAtlasPhotos = {
+  "栈桥景区": "https://store.is.autonavi.com/showpic/43c52933c1769faa59b8ace73c85844d",
+  "圣弥厄尔大教堂": "https://store.is.autonavi.com/showpic/101c2e253fdc709c736a160d7eddddc1",
+  "琴屿路": "https://aos-comment.amap.com/B0FFGQI08D/comment/1669F7B7_AF1D_43F4_951C_F45E4B88ADE3_L0_001_2000_1246_1730787634818_18979849.jpg",
+  "鲁迅公园": "https://store.is.autonavi.com/showpic/95ac2dfdc27756fdf429f62b9b71f933",
+  "第三海水浴场": "https://store.is.autonavi.com/showpic/1788a2c646138be64b19462d5c362eeb",
+  "八大关": "https://store.is.autonavi.com/showpic/493fdb58fb6cc615856a682c52165fc2",
+  "第二海水浴场": "https://store.is.autonavi.com/showpic/01dfe34993c54d94e8e2f9fdb9b0d733",
+  "五四广场": "https://store.is.autonavi.com/showpic/e3903a52ec6685900000007481708767?type=pic",
+  "情人坝": "https://store.is.autonavi.com/showpic/5dbadb513ac779625aeb82303381888c",
+  "中国水准零点景区": "https://store.is.autonavi.com/showpic/cf22f49e676c2fd6a9a2b9d848adda15",
+  "小麦岛公园": "https://aos-cdn-image.amap.com/sns/ugccomment/b85671c1-729f-4d95-8313-81ce64600046.jpg",
+  "青岛啤酒博物馆": "https://store.is.autonavi.com/showpic/12c3fccff292444233f5ccb3feef8329",
+  "台东夜市": "https://aos-comment.amap.com/B02130UAYR/comment/content_media_external_file_100014571_1760359613180_00473484.jpg",
+  "海源公园·一战华工纪念馆": "https://aos-comment.amap.com/B0FFF9Y9R4/comment/content_media_external_file_179033_ss__1770082077296_62236704.jpg",
+  "三连岛观景段": "https://store.is.autonavi.com/showpic/bb4130750691ddb40000005105064342?type=pic",
+  "半月湾": "https://store.is.autonavi.com/showpic/c776c330a345cd21b833a579d1496412",
+  "江古咀": "https://aos-comment.amap.com/B0KRYR1R4G/comment/D23DC496_2361_468E_B1F3_373026AFD827_L0_001_2000_1500_1744426920777_09713651.jpg",
+  "猫头山3号观景台": "https://aos-comment.amap.com/B0JDD7YFR1/comment/content_media_external_images_media_1000012698_ss__1770294454234_64061155.jpg",
+  "葡萄滩": "https://store.is.autonavi.com/showpic/225885e5ddd54a2b0000002897904136?type=pic",
+  "金海湾栈桥": "https://store.is.autonavi.com/showpic/0f2196ed3143bb360000002472294881?type=pic",
+  "欧乐坊夜市": "https://aos-comment.amap.com/B0KR1ZRNIE/comment/content_media_external_file_1000031703_ss__1754827198144_44095753.jpg",
+  "国际海水浴场": "https://store.is.autonavi.com/showpic/125caef497aceef3146494fc1d93371b",
+  "火炬八街": "https://store.is.autonavi.com/showpic/b7c426b566c2aa3d0000004290402257?type=pic",
+};
+
 const spots = [
   { name: "栈桥景区", area: "qingdao", label: "青岛 · 老城", kind: "海滨地标", note: "看青岛湾与回澜阁，适合傍晚沿海散步。", coords: [120.3193, 36.061736], image: images.qingdao, photo: true },
   { name: "圣弥厄尔大教堂", area: "qingdao", label: "青岛 · 老城", kind: "建筑", note: "老城双塔地标，适合看外观和广场街景。", coords: [120.3261, 36.0666], image: "https://dimg07.c-ctrip.com/images/0103t2224k0x02ir67444_W_640_10000.jpg?proc=autoorient", photo: true },
@@ -70,6 +96,16 @@ const spots = [
   { name: "烟墩角天鹅海景区", area: "rongcheng", label: "荣成 · 南线", kind: "季节限定", note: "冬季看天鹅的延伸点，位置更偏南。", coords: [122.4213, 37.0611], image: images.rongcheng },
   { name: "爱莲湾", area: "rongcheng", label: "荣成 · 南线", kind: "小众海湾", note: "人少景静，适合自驾往荣成南线继续走时停留。", coords: [122.4066, 36.9903], image: images.rongcheng },
 ];
+
+spots.forEach((spot) => {
+  const image = amapAtlasPhotos[spot.name];
+  if (image) {
+    spot.image = image;
+    spot.photo = true;
+  } else {
+    spot.photo = false;
+  }
+});
 
 const areaNames = { all: "全部地点", qingdao: "青岛", weihai: "威海市区", rongcheng: "荣成海岸" };
 const state = { filter: "all", activeIndex: null, AMap: null, map: null, markers: [], infoWindow: null };

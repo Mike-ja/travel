@@ -301,6 +301,48 @@ h1 {
   border-radius: 6px;
 }
 
+.atlas-marker {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  color: #fff;
+  font: 700 11px/1 "Noto Sans SC", sans-serif;
+}
+
+.atlas-marker-number {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--marker-color);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.atlas-marker-label {
+  position: absolute;
+  top: 50%;
+  left: 29px;
+  display: none;
+  max-width: 132px;
+  transform: translateY(-50%);
+  overflow: hidden;
+  padding: 4px 7px;
+  border: 1px solid color-mix(in srgb, var(--marker-color) 25%, #fff);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 2px 7px rgba(20, 70, 77, 0.16);
+  color: var(--ink);
+  font-size: 11px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.map.show-marker-labels .atlas-marker-label,
+.atlas-marker.active .atlas-marker-label { display: block; }
+
 footer {
   padding: 26px 20px 34px;
   border-top: 1px solid var(--line);

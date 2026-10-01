@@ -120,6 +120,18 @@ function getVisibleSpots() {
   return state.filter === "all" ? spots : spots.filter((spot) => spot.area === state.filter);
 }
 
+function buildMarkerContent(spot, index, active = false) {
+  const color = spot.area === "qingdao" ? "#087f8c" : spot.area === "weihai" ? "#c86646" : "#3b719b";
+  return `<div class="atlas-marker ${active ? "active" : ""}" style="--marker-color:${color}"><span class="atlas-marker-number">${index + 1}</span><span class="atlas-marker-label">${spot.name}</span></div>`;
+}
+
+function updateMarkerVisibility() {
+  if (!state.map) return;
+  const visibleIndexes = new Set(getVisibleSpots().map((spot) => spots.indexOf(spot)));
+  state.markers.forEach((marker, index) => marker.setMap(visibleIndexes.has(index) ? state.map : null));
+  document.querySelector("#map").classList.toggle("show-marker-labels", state.filter !== "all");
+}
+
 function renderCards() {
   const visible = getVisibleSpots();
   spotCount.textContent = `${areaNames[state.filter]} · ${visible.length} 个地点`;
@@ -153,6 +165,7 @@ function openSpot(index) {
   const spot = spots[index];
   if (!spot || !state.map) return;
   state.activeIndex = index;
+  state.markers.forEach((marker, markerIndex) => marker.setContent(buildMarkerContent(spots[markerIndex], markerIndex, markerIndex === index)));
   renderCards();
   mapTitle.textContent = spot.name;
   mapSummary.textContent = `${spot.label} · ${spot.kind}。${spot.note}`;
@@ -170,11 +183,17 @@ function fitVisibleSpots() {
 function setFilter(filter) {
   state.filter = filter;
   state.activeIndex = null;
+  state.markers.forEach((marker, index) => {
+    marker.setContent(buildMarkerContent(spots[index], index));
+  });
   document.querySelectorAll("[data-filter]").forEach((button) => button.classList.toggle("active", button.dataset.filter === filter));
   renderCards();
   mapTitle.textContent = areaNames[filter];
-  mapSummary.textContent = "点击地点卡片或地图圆点，可放大查看对应位置与游玩提示。";
+  mapSummary.textContent = filter === "all"
+    ? "筛选地区后，地图圆点会直接显示地点名称；点击卡片或圆点可查看详细位置与游玩提示。"
+    : `地图已显示${areaNames[filter]}的地点名称；点击圆点可放大查看。`;
   state.infoWindow.close();
+  updateMarkerVisibility();
   fitVisibleSpots();
 }
 
@@ -189,13 +208,14 @@ async function initMap() {
       const marker = new AMap.Marker({
         position: spot.coords,
         title: spot.name,
-        content: `<div style="width:24px;height:24px;display:grid;place-items:center;border:2px solid #fff;border-radius:50%;background:${spot.area === "qingdao" ? "#087f8c" : spot.area === "weihai" ? "#c86646" : "#3b719b"};box-shadow:0 3px 8px rgba(0,0,0,.2);color:#fff;font:700 11px/1 sans-serif;">${index + 1}</div>`,
+        content: buildMarkerContent(spot, index),
         anchor: "center",
       });
       marker.on("click", () => openSpot(index));
       return marker;
     });
     state.map.add(state.markers);
+    updateMarkerVisibility();
     state.map.addControl(new AMap.Scale());
     state.map.addControl(new AMap.ToolBar({ position: { right: "12px", top: "12px" } }));
     fitVisibleSpots();

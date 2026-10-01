@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>青岛·威海景点图鉴</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./guide.css" />
+    <script src="https://webapi.amap.com/loader.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="back-link" href="./index.html">返回五日行程</a>
+      <span>QINGDAO · WEIHAI ATLAS</span>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p class="eyebrow">字幕地点图鉴</p>
+        <h1>青岛 · 威海<br />值得一去的地方</h1>
+        <p>根据两份攻略字幕整理。点击任意地点卡片，地图会放大到对应位置；“延伸自驾”适合时间更充裕时安排。</p>
+      </section>
+
+      <section class="atlas-layout" aria-label="景点图鉴与地图">
+        <div class="atlas-content">
+          <div class="filter-bar" role="group" aria-label="地点分组">
+            <button class="filter-button active" type="button" data-filter="all">全部 <span id="all-count"></span></button>
+            <button class="filter-button" type="button" data-filter="qingdao">青岛</button>
+            <button class="filter-button" type="button" data-filter="weihai">威海市区</button>
+            <button class="filter-button" type="button" data-filter="rongcheng">荣成海岸</button>
+          </div>
+          <p id="spot-count" class="spot-count"></p>
+          <div id="spot-grid" class="spot-grid"></div>
+        </div>
+
+        <aside class="map-column">
+          <div class="map-heading">
+            <div>
+              <p class="eyebrow">地图定位</p>
+              <h2 id="map-title">选择一个地点</h2>
+            </div>
+            <button id="fit-all" class="icon-button" type="button" title="显示全部地点" aria-label="显示全部地点">⌖</button>
+          </div>
+          <p id="map-summary" class="map-summary">地图上的圆点对应图鉴地点。点击卡片或圆点可查看说明。</p>
+          <div id="map" class="map"></div>
+        </aside>
+      </section>
+    </main>
+
+    <footer>图片来自网页检索结果，仅作旅行参考；开放、预约与交通信息请以出发当天为准。</footer>
+    <script src="./guide.js?v=20261002-4"></script>
+  </body>
+</html>

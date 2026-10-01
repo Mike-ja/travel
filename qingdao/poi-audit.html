@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>威海餐饮地点核对</title>
+    <script src="https://webapi.amap.com/loader.js"></script>
+    <style>
+      body { margin: 0; background: #f4f8f8; color: #17363d; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Noto Sans SC", sans-serif; }
+      main { max-width: 960px; margin: 0 auto; padding: 28px 20px 64px; }
+      h1 { margin: 0 0 6px; font-size: 26px; } p { color: #587177; }
+      article { margin: 14px 0; padding: 14px 16px; border: 1px solid #d5e5e7; border-radius: 8px; background: #fff; }
+      h2 { margin: 0 0 8px; font-size: 16px; } ol { margin: 0; padding-left: 22px; } li { margin: 7px 0; }
+      .name { font-weight: 700; } .meta { color: #587177; } .empty { color: #a33c25; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>威海餐饮与市场地点核对</h1>
+      <p>每项展示高德在威海市内返回的候选结果；只有名称、分店和地址都确认后，才应写入行程地图。</p>
+      <div id="results">正在逐项检索…</div>
+    </main>
+    <script>
+      const entries = [
+        ["餐饮", "韩香福烤肉庄园(文化西路店)"], ["餐饮", "苏雅经典名食(国际海水浴场店)"],
+        ["餐饮", "青禾胜烤肉韩餐"], ["餐饮", "食香阁家常菜"], ["餐饮", "大雁店 米肠汤饭 牛尾汤"],
+        ["餐饮", "玉乐饭庄(欧乐坊寨子店)"], ["餐饮", "桢家宝酒店总店"], ["餐饮", "顺心老琴烧烤"],
+        ["餐饮", "仁义酒楼"], ["餐饮", "九禧海鲜居"], ["餐饮", "申之歌海鲜酒楼"],
+        ["餐饮", "一统汤砂锅总店"], ["餐饮", "鸿达海鲜小院"], ["餐饮", "玄家餐桌 酱蟹"],
+        ["餐饮", "高阳饭店"], ["餐饮", "鸿林酒楼"], ["餐饮", "真利味脊骨火锅"],
+        ["市场", "长峰邻里农贸海鲜市场"], ["市场", "威海水产品批发市场"], ["市场", "合庆码头"], ["市场", "江峰农贸市场"],
+        ["复核", "九禧海鲜居 竹岛店"], ["复核", "真利味 高区分店"], ["复核", "申之歌海鲜酒楼"],
+        ["复核", "一统汤砂锅 威海"], ["复核", "鸿达海鲜小院 韩乐坊"], ["复核", "玄家餐桌 酱蟹"],
+        ["复核", "顺心老琴烧烤 威海"], ["复核", "仁义酒楼 威海"], ["复核", "长峰邻里农贸市场"],
+      ];
+      const config = { key: "259d8f776aae8efb0d0c48cce0ffee94", securityJsCode: "962c62efe99065cd8153d6e9d0f6fd36" };
+      const results = document.querySelector("#results");
+      const text = (value) => document.createTextNode(value || "");
+
+      function renderEntry(index, type, keyword, pois) {
+        const article = document.createElement("article");
+        article.id = `result-${index + 1}`;
+        const heading = document.createElement("h2");
+        heading.textContent = `${index + 1}. ${type} · ${keyword}`;
+        article.append(heading);
+        if (!pois.length) {
+          const empty = document.createElement("p");
+          empty.className = "empty";
+          empty.textContent = "未返回可定位候选，暂不写入地图。";
+          article.append(empty);
+        } else {
+          const list = document.createElement("ol");
+          pois.forEach((poi) => {
+            const item = document.createElement("li");
+            const name = document.createElement("span");
+            name.className = "name";
+            name.append(text(poi.name));
+            const meta = document.createElement("span");
+            meta.className = "meta";
+            meta.textContent = ` · ${[poi.address, poi.pname, poi.adname].filter(Boolean).join(" ")} · ${poi.location.lng}, ${poi.location.lat}`;
+            item.append(name, meta);
+            list.append(item);
+          });
+          article.append(list);
+        }
+        results.append(article);
+      }
+
+      async function runAudit() {
+        window._AMapSecurityConfig = { securityJsCode: config.securityJsCode };
+        const AMap = await AMapLoader.load({ key: config.key, version: "2.0", plugins: ["AMap.PlaceSearch"] });
+        results.textContent = "";
+        for (let index = 0; index < entries.length; index += 1) {
+          const [type, keyword] = entries[index];
+          const pois = await new Promise((resolve) => {
+            const search = new AMap.PlaceSearch({ city: "威海", citylimit: true, pageSize: 6, extensions: "base" });
+            search.search(keyword, (status, result) => resolve(status === "complete" ? (result?.poiList?.pois || []).filter((poi) => poi.location) : []));
+          });
+          renderEntry(index, type, keyword, pois);
+        }
+      }
+
+      runAudit().catch(() => { results.textContent = "地点检索初始化失败。"; });
+    </script>
+  </body>
+</html>

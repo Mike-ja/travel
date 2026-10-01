@@ -1,0 +1,33 @@
+@import url("../xian/tool.css");
+
+:root {
+  --bg: #eef7f8;
+  --panel: rgba(253, 255, 255, 0.94);
+  --ink: #163941;
+  --muted: #56747a;
+  --line: rgba(27, 104, 119, 0.18);
+  --accent: #087f8c;
+  --shadow: 0 18px 40px rgba(28, 92, 105, 0.12);
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(105, 190, 203, 0.23), transparent 28%),
+    linear-gradient(180deg, #f8fdfe 0%, var(--bg) 100%);
+}
+
+.back-link,
+button.ghost {
+  background: #fbffff;
+}
+
+.field-group input,
+.snippet-wrap textarea,
+.result-item {
+  border-color: rgba(8, 127, 140, 0.18);
+}
+
+.result-item.active {
+  border-color: rgba(8, 127, 140, 0.42);
+  background: linear-gradient(180deg, #e7f7f8 0%, #fbffff 100%);
+}

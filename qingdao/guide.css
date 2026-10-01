@@ -1,0 +1,326 @@
+:root {
+  color-scheme: light;
+  --ink: #15393f;
+  --muted: #61777a;
+  --line: #d9e6e3;
+  --paper: #ffffff;
+  --sea: #087f8c;
+  --sea-soft: #e3f4f3;
+  --sand: #f8f4e8;
+  --coral: #c86646;
+  --shadow: 0 16px 36px rgba(20, 70, 77, 0.11);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Noto Sans SC", sans-serif;
+  background: #f4faf9;
+}
+
+button { font: inherit; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(1360px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 18px 0;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.back-link {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-decoration: none;
+}
+
+.back-link::before { content: "← "; color: var(--sea); }
+
+main { width: min(1360px, calc(100% - 40px)); margin: 0 auto; }
+
+.intro {
+  max-width: 800px;
+  padding: 42px 0 46px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--sea);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+h1, h2, h3, p { margin: 0; }
+
+h1 {
+  font-size: clamp(38px, 5vw, 68px);
+  line-height: 1.06;
+}
+
+.intro > p:last-child {
+  max-width: 680px;
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.atlas-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.56fr);
+  gap: 26px;
+  align-items: start;
+  padding-bottom: 54px;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-button,
+.icon-button {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.filter-button {
+  padding: 9px 13px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.filter-button span { color: var(--muted); }
+
+.filter-button:hover,
+.filter-button.active {
+  border-color: var(--sea);
+  background: var(--sea);
+  color: #fff;
+}
+
+.filter-button.active span { color: #d9f3f2; }
+
+.spot-count {
+  margin: 18px 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.spot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.spot-card {
+  display: grid;
+  grid-template-rows: 150px auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.spot-card:hover,
+.spot-card.active {
+  border-color: var(--sea);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.spot-image {
+  position: relative;
+  overflow: hidden;
+  background: var(--sea-soft);
+}
+
+.spot-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  opacity: 0;
+  transition: transform 240ms ease;
+}
+
+.spot-image.loaded img { opacity: 1; }
+
+.spot-card:hover .spot-image img { transform: scale(1.04); }
+
+.spot-image.image-failed img { display: none; }
+
+.spot-image.image-failed::after {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--sea);
+  content: "海岸图鉴";
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.spot-image.placeholder-cover {
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background:
+    linear-gradient(140deg, rgba(8, 127, 140, 0.96), rgba(36, 83, 112, 0.93)),
+    var(--sea);
+}
+
+.spot-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  padding: 18px;
+  color: #fff;
+}
+
+.spot-image:not(.placeholder-cover) .spot-placeholder {
+  background: linear-gradient(140deg, rgba(8, 127, 140, 0.96), rgba(36, 83, 112, 0.93));
+}
+
+.spot-placeholder span,
+.spot-placeholder em {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.spot-placeholder strong {
+  font-size: 23px;
+  line-height: 1.22;
+}
+
+.spot-body { padding: 14px; }
+
+.spot-body strong,
+.spot-body > span:last-child {
+  display: block;
+}
+
+.spot-body strong {
+  margin-top: 8px;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.spot-body > span:last-child {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.spot-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.spot-area {
+  color: var(--sea);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.spot-kind {
+  color: var(--coral);
+  font-size: 11px;
+}
+
+.map-column {
+  position: sticky;
+  top: 16px;
+  min-height: 630px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.map-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.map-heading .eyebrow { margin-bottom: 5px; }
+.map-heading h2 { font-size: 22px; }
+
+.icon-button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 6px;
+  color: var(--sea);
+  font-size: 21px;
+}
+
+.icon-button:hover { background: var(--sea-soft); border-color: var(--sea); }
+
+.map-summary {
+  min-height: 44px;
+  margin: 10px 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.map {
+  height: 500px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+footer {
+  padding: 26px 20px 34px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (max-width: 980px) {
+  .atlas-layout { grid-template-columns: 1fr; }
+  .map-column { position: static; min-height: 0; }
+  .map { height: 430px; }
+}
+
+@media (max-width: 620px) {
+  .topbar, main { width: min(100% - 28px, 1360px); }
+  .topbar > span { display: none; }
+  .intro { padding: 28px 0 32px; }
+  .spot-grid { grid-template-columns: 1fr; }
+  .spot-card { grid-template-rows: 180px auto; }
+  .map { height: 340px; }
+}
